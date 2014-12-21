@@ -24,12 +24,13 @@ type xlsxWorkbookRelation struct {
 // currently I have not checked it for completeness - it does as much
 // as I need.
 type xlsxWorkbook struct {
-	FileVersion  xlsxFileVersion  `xml:"fileVersion"`
-	WorkbookPr   xlsxWorkbookPr   `xml:"workbookPr"`
-	BookViews    xlsxBookViews    `xml:"bookViews"`
-	Sheets       xlsxSheets       `xml:"sheets"`
-	DefinedNames xlsxDefinedNames `xml:"definedNames"`
-	CalcPr       xlsxCalcPr       `xml:"calcPr"`
+	FileVersion        xlsxFileVersion        `xml:"fileVersion"`
+	WorkbookPr         xlsxWorkbookPr         `xml:"workbookPr"`
+	BookViews          xlsxBookViews          `xml:"bookViews"`
+	Sheets             xlsxSheets             `xml:"sheets"`
+	DefinedNames       xlsxDefinedNames       `xml:"definedNames"`
+	CalcPr             xlsxCalcPr             `xml:"calcPr"`
+	WorkbookProtection xlsxWorkbookProtection `xml:"workbookProtection"`
 }
 
 // xlsxFileVersion directly maps the fileVersion element from the
@@ -112,6 +113,16 @@ type xlsxDefinedName struct {
 // as I need.
 type xlsxCalcPr struct {
 	CalcId string `xml:"calcId,attr"`
+}
+
+// xlsxWorkbookProtection directly maps the workbookProtection element from the
+// namespace http://schemas.openxmlformats.org/spreadsheetml/2006/main
+// - currently I have not checked it for completeness - it does as
+// much as I need.
+type xlsxWorkbookProtection struct {
+	LockRevision  bool `xml:"lockRevision,attr"`
+	LockStructure bool `xml:"lockStructure,attr"`
+	LockWindows   bool `xml:"lockWindows,attr"`
 }
 
 // getWorksheetFromSheet() is an internal helper function to open a

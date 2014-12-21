@@ -5,9 +5,10 @@ package xlsx
 // currently I have not checked it for completeness - it does as much
 // as I need.
 type xlsxWorksheet struct {
-	SheetFormatPr xlsxSheetFormatPr `xml:"sheetFormatPr"`
-	Dimension     xlsxDimension     `xml:"dimension"`
-	SheetData     xlsxSheetData     `xml:"sheetData"`
+	SheetFormatPr   xlsxSheetFormatPr   `xml:"sheetFormatPr"`
+	Dimension       xlsxDimension       `xml:"dimension"`
+	SheetData       xlsxSheetData       `xml:"sheetData"`
+	SheetProtection xlsxSheetProtection `xml:"sheetProtection"`
 }
 
 type xlsxSheetFormatPr struct {
@@ -40,6 +41,14 @@ type xlsxRow struct {
 	C            []xlsxC `xml:"c"`
 	Ht           float64 `xml:"ht,attr"`
 	CustomHeight int     `xml:"customHeight,attr"`
+}
+
+// xlsxSheetProtection directly maps the sheetProtection element in the namespace
+// http://schemas.openxmlformats.org/spreadsheetml/2006/main -
+// currently I have not checked it for completeness - it does as much
+// as I need.
+type xlsxSheetProtection struct {
+	Sheet bool `xml:"sheet,attr"`
 }
 
 type xlsxSharedFormula struct {

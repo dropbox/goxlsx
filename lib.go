@@ -96,12 +96,16 @@ type CellCoord struct {
 // Sheet is a high level structure intended to provide user access to
 // the contents of a particular sheet within an XLSX file.
 type Sheet struct {
-	Name             string
-	Cells            map[CellCoord]Cell
-	Rows             map[int]Row
-	MaxRow           int
-	MaxCol           int
-	DefaultRowHeight float64
+	Name                  string
+	Cells                 map[CellCoord]Cell
+	Rows                  map[int]Row
+	MaxRow                int
+	MaxCol                int
+	DefaultRowHeight      float64
+	Protected             bool
+	WorkbookLockRevision  bool
+	WorkbookLockStructure bool
+	WorkbookLockWindows   bool
 }
 
 // Style is a high level structure intended to provide user access to
@@ -474,6 +478,7 @@ func readRowsFromSheet(Worksheet *xlsxWorksheet, file *File, si map[string]xlsxS
 	sheet.MaxRow = rowCount
 	sheet.MaxCol = colCount
 	sheet.DefaultRowHeight = Worksheet.SheetFormatPr.DefaultRowHeight
+	sheet.Protected = Worksheet.SheetProtection.Sheet
 	return sheet
 }
 
@@ -532,6 +537,9 @@ func readSheetsFromZipFile(f *zip.File, file *File, sheetXMLMap map[string]strin
 			return nil, sheet.Error
 		}
 		sheet.Sheet.Name = workbook.Sheets.Sheet[sheet.Index].Name
+		sheet.Sheet.WorkbookLockRevision = workbook.WorkbookProtection.LockRevision
+		sheet.Sheet.WorkbookLockStructure = workbook.WorkbookProtection.LockStructure
+		sheet.Sheet.WorkbookLockWindows = workbook.WorkbookProtection.LockWindows
 		sheets[sheet.Index] = sheet.Sheet
 	}
 	return sheets, nil
